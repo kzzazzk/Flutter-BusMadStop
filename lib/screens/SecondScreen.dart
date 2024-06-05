@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'ThirdScreen.dart';
-
-import 'package:flutter/material.dart';
-
 class SecondScreen extends StatefulWidget {
   @override
   _SecondScreenState createState() => _SecondScreenState();
@@ -25,9 +21,6 @@ class _SecondScreenState extends State<SecondScreen> {
     // this method is called every time the widget needs to be rebuilt, for example, after calling setState().
     print("build: Building the user interface.");
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Second screen'),
-      ),
       body: Center(
         child: Text('Welcome to the Second Screen!'),
       ),

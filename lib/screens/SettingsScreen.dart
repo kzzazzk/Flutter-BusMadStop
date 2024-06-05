@@ -8,6 +8,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   Map<String, TextEditingController> controllers = {};
+
   Future<Map<String, dynamic>> _fetchAllPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final keys = prefs.getKeys();
@@ -21,16 +22,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _updatePreference(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
-    if (value is String) {
-      prefs.setString(key, value);
-    }
+    prefs.setString(key, value);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        backgroundColor: Colors.red,
+        centerTitle: true,
+        iconTheme: const IconThemeData(
+          color: Colors.white, // Change this to your desired color
+        ),
+        title: const Text(
+          'Settings',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _fetchAllPreferences(),
