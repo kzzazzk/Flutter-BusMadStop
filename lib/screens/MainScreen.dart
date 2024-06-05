@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'SecondScreen.dart';
+import 'SettingsScreen.dart';
 import 'SplashScreen.dart';
 import 'ThirdScreen.dart';
 
@@ -62,10 +63,10 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-              /* Navigator.push(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SettingsScreen()),
-              ); */
+              );
             },
           ),
         ],

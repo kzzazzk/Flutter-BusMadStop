@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SecondScreen extends StatefulWidget {
   @override
@@ -7,12 +10,15 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
+  List<List<String>> _coordinates = [];
+
   @override
   void initState() {
     super.initState();
     // This method is called once when the state object is created.
     // It's a good place to initialize data that depends on the state.
     print("initState: Initial state setup.");
+    _loadCoordinates();
   }
 
   @override
@@ -21,10 +27,32 @@ class _SecondScreenState extends State<SecondScreen> {
     // this method is called every time the widget needs to be rebuilt, for example, after calling setState().
     print("build: Building the user interface.");
     return Scaffold(
-      body: Center(
-        child: Text('Welcome to the Second Screen!'),
+      body: ListView.builder(
+        itemCount: _coordinates.length,
+        itemBuilder: (context, index) {
+          var coord = _coordinates[index];
+          var formattedDate = DateFormat('yyyy/MM/dd HH:mm:ss')
+              .format(DateTime.fromMillisecondsSinceEpoch(int.parse(coord[0])));
+          return ListTile(
+            title: Text(
+              'Timestamp: $formattedDate',
+              style: const TextStyle(color: Colors.black),
+            ),
+            subtitle: Text('Latitude: ${coord[1]}, Longitude: ${coord[2]}',
+                style: const TextStyle(color: Colors.black)),
+          );
+        },
       ),
     );
+  }
+
+  Future<void> _loadCoordinates() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/gps_coordinates.csv');
+    List<String> lines = await file.readAsLines();
+    setState(() {
+      _coordinates = lines.map((line) => line.split(';')).toList();
+    });
   }
 
   @override
