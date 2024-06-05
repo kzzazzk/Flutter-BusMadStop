@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'SecondScreen.dart';
-import 'SettingsScreen.dart';
-import 'SplashScreen.dart';
-import 'ThirdScreen.dart';
+import 'second_screen.dart';
+import 'settings_screen.dart';
+import 'splash_screen.dart';
+import 'third_screen.dart';
 
 void main() {
   runApp(const MyApp());
