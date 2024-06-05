@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'SettingsScreen.dart';
-
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -14,6 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final logger = Logger();
   final _uidController = TextEditingController();
   final _tokenController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -70,22 +69,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('HelloWorldFt for MAD'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: Text('Welcome to the Home Screen!'),
       ),
     );
