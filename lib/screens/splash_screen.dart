@@ -27,17 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
     _loadPrefs();
   }
 
-  Future<void> _loadPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? uid = prefs.getString('uid');
-    String? token = prefs.getString('token');
-    if (uid == null || token == null) {
-      _showInputDialog();
-    } else {
-      logger.d("UID: $uid, Token: $token");
-    }
-  }
-
   Future<void> _showInputDialog() async {
     return showDialog<void>(
       context: context,
@@ -75,6 +64,70 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  Future<void> _loadPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? uid = prefs.getString('uid');
+    String? token = prefs.getString('token');
+
+    if (uid == null || token == null) {
+      _showInputDialog();
+    } else {
+      logger.d("UID: $uid, Token: $token");
+    }
+  }
+
+  @override
+  void dispose() {
+    _uidController.dispose();
+    _tokenController.dispose();
+    super.dispose();
+  }
+
+  void startTracking() async {
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high, // Adjust the accuracy as needed
+      distanceFilter: 1, // Distance in meters before an update is triggered
+    );
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    var permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied');
+    }
+
+    _positionStreamSubscription =
+        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+              (Position position) {
+            writePositionToFile(position);
+            db.insertCoordinate(position);
+          },
+        );
+  }
+
+  void stopTracking() {
+    _positionStreamSubscription?.cancel();
+    _positionStreamSubscription = null;
+  }
+
+  Future<void> writePositionToFile(Position position) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/gps_coordinates.csv');
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    await file.writeAsString(
+        '${timestamp};${position.latitude};${position.longitude}\n',
+        mode: FileMode.append);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,62 +152,5 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _uidController.dispose();
-    _tokenController.dispose();
-    super.dispose();
-  }
-
-  void startTracking() async {
-    const locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high, // Adjust the accuracy as needed
-      distanceFilter: 10, // Distance in meters before an update is triggered
-    );
-    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-    var permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied');
-    }
-
-    _positionStreamSubscription =
-        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-      (Position position) {
-        writePositionToFile(position);
-      },
-    );
-    _positionStreamSubscription =
-        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-      (Position position) {
-        db.insertCoordinate(position);
-      },
-    );
-  }
-
-  void stopTracking() {
-    _positionStreamSubscription?.cancel();
-    _positionStreamSubscription = null;
-  }
-
-  Future<void> writePositionToFile(Position position) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/gps_coordinates.csv');
-    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-    await file.writeAsString(
-        '${timestamp};${position.latitude};${position.longitude}\n',
-        mode: FileMode.append);
   }
 }

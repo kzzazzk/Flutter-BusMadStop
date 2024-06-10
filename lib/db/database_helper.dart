@@ -56,8 +56,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<void> updateCoordinate(
-      String timestamp, String newLat, String newLong) async {
+  Future<void> updateCoordinate(String timestamp, String newLat, String newLong) async {
     final db = await database;
     await db.update(
       'coordinates',

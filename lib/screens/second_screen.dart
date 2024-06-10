@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../db/database_helper.dart';
 
@@ -18,35 +20,55 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   void initState() {
     super.initState();
-    // This method is called once when the state object is created.
-    // It's a good place to initialize data that depends on the state.
-    print("initState: Initial state setup.");
     _loadCoordinates();
+    _loadDbCoordinatesAndUpdate();
   }
 
   @override
-  Widget build(BuildContext context) {
-    // Similar to the build method of a StatelessWidget,
-    // this method is called every time the widget needs to be rebuilt, for example, after calling setState().
-    print("build: Building the user interface.");
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: _coordinates.length,
-        itemBuilder: (context, index) {
-          var coord = _coordinates[index];
-          var formattedDate = DateFormat('yyyy/MM/dd HH:mm:ss')
-              .format(DateTime.fromMillisecondsSinceEpoch(int.parse(coord[0])));
-          return ListTile(
-              title: Text('DB Timestamp: ${coord[0]}',
-                  style: const TextStyle(color: Colors.red)),
-              subtitle: Text('Latitude: ${coord[1]}, Longitude: ${coord[2]}',
-                  style: const TextStyle(color: Colors.red)),
-              onTap: () => _showDeleteDialog(coord[0]),
-              onLongPress: () =>
-                  _showUpdateDialog(coord[0], coord[1], coord[2]));
-        },
-      ),
-    );
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // This method is called right after initState the first time
+    // the widget is built and when any dependencies of the InheritedWidget change.
+    print("didChangeDependencies: Dependencies updated.");
+  }
+
+  @override
+  void didUpdateWidget(SecondScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // If the parent widget changes and has to rebuild this widget (because it needs to update the configuration),
+    // this method is called with the old widget as an argument.
+    print("didUpdateWidget: The widget has been updated from the parent.");
+  }
+
+  @override
+  void dispose() {
+    // This method is called when this state object is permanently removed.
+    print("dispose: Cleaning up before the state is destroyed.");
+    super.dispose();
+  }
+
+  Future<void> _loadCoordinates() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/gps_coordinates.csv');
+    List<String> lines = await file.readAsLines();
+    setState(() {
+      _coordinates = lines.map((line) => line.split(';')).toList();
+    });
+  }
+
+
+  void _loadDbCoordinatesAndUpdate() async {
+    List<Map<String, dynamic>> dbCoords =
+    await DatabaseHelper.instance.getCoordinates();
+    setState(() {
+      _dbCoordinates = dbCoords
+          .map((c) => [
+        c['timestamp'].toString(),
+        c['latitude'].toString(),
+        c['longitude'].toString()
+      ])
+          .toList();
+    });
   }
 
   void _showDeleteDialog(String timestamp) {
@@ -75,12 +97,9 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-  void _showUpdateDialog(
-      String timestamp, String currentLat, String currentLong) {
-    TextEditingController latController =
-        TextEditingController(text: currentLat);
-    TextEditingController longController =
-        TextEditingController(text: currentLong);
+  void _showUpdateDialog(String timestamp, String currentLat, String currentLong) {
+    TextEditingController latController = TextEditingController(text: currentLat);
+    TextEditingController longController = TextEditingController(text: currentLong);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -110,8 +129,7 @@ class _SecondScreenState extends State<SecondScreen> {
               child: Text("Update"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                await DatabaseHelper.instance.updateCoordinate(
-                    timestamp, latController.text, longController.text);
+                await DatabaseHelper.instance.updateCoordinate(timestamp, latController.text, longController.text);
                 _loadDbCoordinatesAndUpdate();
               },
             ),
@@ -121,63 +139,34 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-  Future<void> _loadCoordinates() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/gps_coordinates.csv');
-    List<String> lines = await file.readAsLines();
-    setState(() {
-      _coordinates = lines.map((line) => line.split(';')).toList();
-    });
-  }
-
-  Future<void> _loadDbCoordinates() async {
-    List<Map<String, dynamic>> dbCoords =
-        await DatabaseHelper.instance.getCoordinates(); // Corrected
-    setState(() {
-      _dbCoordinates = dbCoords
-          .map((c) => [
-                c['timestamp'].toString(), // Corrected
-                c['latitude'].toString(), // Corrected
-                c['longitude'].toString() // Corrected
-              ])
-          .toList();
-    });
-  }
-
-  void _loadDbCoordinatesAndUpdate() async {
-    List<Map<String, dynamic>> dbCoords =
-        await DatabaseHelper.instance.getCoordinates();
-    setState(() {
-      _dbCoordinates = dbCoords
-          .map((c) => [
-                c['timestamp'].toString(),
-                c['latitude'].toString(),
-                c['longitude'].toString()
-              ])
-          .toList();
-    });
-  }
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // This method is called right after initState the first time
-    // the widget is built and when any dependencies of the InheritedWidget change.
-    print("didChangeDependencies: Dependencies updated.");
-  }
-
-  @override
-  void didUpdateWidget(SecondScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // If the parent widget changes and has to rebuild this widget (because it needs to update the configuration),
-    // this method is called with the old widget as an argument.
-    print("didUpdateWidget: The widget has been updated from the parent.");
-  }
-
-  @override
-  void dispose() {
-    // This method is called when this state object is permanently removed.
-    print("dispose: Cleaning up before the state is destroyed.");
-    super.dispose();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Second Screen'),
+      ),
+      body: ListView.builder(
+        itemCount: _coordinates.length + _dbCoordinates.length, // Combined count
+        itemBuilder: (context, index) {
+          if (index < _coordinates.length) {
+            var coord = _coordinates[index];
+            return ListTile(
+              title: Text('CSV Timestamp: ${coord[0]}'),
+              subtitle: Text('Latitude: ${coord[1]}, Longitude: ${coord[2]}'),
+            );
+          } else {
+            var dbIndex = index - _coordinates.length;
+            var coord = _dbCoordinates[dbIndex];
+            return ListTile(
+              title: Text('DB Timestamp: ${coord[0]}', style: TextStyle(color: Colors.blue)),
+              subtitle: Text('Latitude: ${coord[1]}, Longitude: ${coord[2]}', style: TextStyle(color: Colors.blue)),
+              onTap: () => _showDeleteDialog(coord[0]),
+              onLongPress: () => _showUpdateDialog(coord[0], coord[1], coord[2]),
+            );
+          }
+        },
+      ),
+    );
   }
 }
+
