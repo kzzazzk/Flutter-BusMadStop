@@ -27,7 +27,8 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> loadBusStopMarkers() async {
-    String jsonString = await rootBundle.loadString('lib/assets/EMT_stops.geojson');
+    String jsonString =
+        await rootBundle.loadString('lib/assets/EMT_stops.geojson');
     print("geojson cargado");
     var jsonData = jsonDecode(jsonString);
     print("json codificado");
@@ -41,7 +42,7 @@ class _MapScreenState extends State<MapScreen> {
           width: 80,
           height: 80,
           child: IconButton(
-            onPressed : () {
+            onPressed: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -62,11 +63,12 @@ class _MapScreenState extends State<MapScreen> {
                         border: Border.all(color: Colors.blue),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          Text('Stop name: ${feature['properties']['DENOMINACION']}'),
-                          SizedBox(height: 10),
+                          Text(
+                              'Stop name: ${feature['properties']['DENOMINACION']}'),
+                          const SizedBox(height: 7),
                           Text('Tap to view details'),
                         ],
                       ),
@@ -75,8 +77,17 @@ class _MapScreenState extends State<MapScreen> {
                 },
               );
             },
-            icon: Icon(Icons.location_pin),
-            color: Colors.red,
+            icon: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white, // Background color
+                shape: BoxShape.circle, // Circular shape
+              ),
+              padding: EdgeInsets.all(3), // Adjust padding as needed
+              child: Icon(
+                Icons.directions_bus,
+                color: Colors.red,
+              ),
+            ),
           ),
         ),
       );
@@ -135,7 +146,10 @@ class _MapScreenState extends State<MapScreen> {
 
       List<String> values = lastLine.split(';');
 
-      print("LAT:" + double.parse(values[1]).toString() + "LONG:" + double.parse(values[2]).toString());
+      print("LAT:" +
+          double.parse(values[1]).toString() +
+          "LONG:" +
+          double.parse(values[2]).toString());
       return LatLng(double.parse(values[1]), double.parse(values[2]));
     } else {
       throw Exception('File does not exist');
@@ -145,8 +159,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget content() {
     return FlutterMap(
       options: MapOptions(
-          initialCenter:
-            initialCenter, // Centro inicial
+          initialCenter: initialCenter, // Centro inicial
           initialZoom: 15,
           interactionOptions:
               const InteractionOptions(flags: InteractiveFlag.all)),
