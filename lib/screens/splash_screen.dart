@@ -1,14 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
+import '../location_provider.dart';
 import '/db/database_helper.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -52,11 +55,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _positionStreamSubscription =
         Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-      (Position position) {
-        writePositionToFile(position);
-        db.insertCoordinate(position);
-      },
-    );
+              (Position position) {
+            writePositionToFile(position);
+            db.insertCoordinate(position);
+            Provider.of<LocationProvider>(context, listen: false)
+                .updateLocation(LatLng(position.latitude, position.longitude));
+          },
+        );
   }
 
   void stopTracking() {
@@ -69,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final file = File('${directory.path}/gps_coordinates.csv');
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     await file.writeAsString(
-        '${timestamp};${position.latitude};${position.longitude}\n',
+        '$timestamp;${position.latitude};${position.longitude}\n',
         mode: FileMode.append);
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BusStopScreen extends StatelessWidget {
   final Map<String, dynamic> feature;
 
-  BusStopScreen({required this.feature});
+  const BusStopScreen({super.key, required this.feature});
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +156,7 @@ class BusStopScreen extends StatelessWidget {
                       ],
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
@@ -167,9 +167,9 @@ class BusStopScreen extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: BusStopScreen(
-      feature: const {
+      feature: {
         'properties': {
           'DENOMINACION': 'Main St',
           'CODIGOEMPRESA': '123456',

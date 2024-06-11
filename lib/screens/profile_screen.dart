@@ -5,7 +5,7 @@ import 'package:mad_bus_stop/screens/second_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
                 (Route<dynamic> route) => false,
               );
             },
@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                style: TextStyle(fontSize: 15),
+                                style: const TextStyle(fontSize: 15),
                                 'Email: $_email',
                                 textAlign: TextAlign.left,
                               ),
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => (SecondScreen())),
+                                  builder: (context) => (const SecondScreen())),
                             );
                           },
                           child: const Padding(

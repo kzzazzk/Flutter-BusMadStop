@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
+import 'location_provider.dart';
 import 'screens/splash_screen.dart';
-import 'screens/second_screen.dart';
 import 'screens/map_screen.dart';
 import 'screens/login_screen.dart';
-import 'screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/profile_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => LocationProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,11 +37,11 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data != null) {
-              return MainScreen(); // User is logged in
+              return const MainScreen(); // User is logged in
             }
-            return LoginScreen(); // User is not logged in
+            return const LoginScreen(); // User is not logged in
           }
-          return CircularProgressIndicator(); // Waiting for connection
+          return const CircularProgressIndicator(); // Waiting for connection
         },
       ),
       theme: ThemeData(
@@ -48,6 +53,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -55,8 +62,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final List<Widget> _screens = [
-    SplashScreen(),
-    MapScreen(),
+    const SplashScreen(),
+    const MapScreen(),
   ];
 
   void _onItemTapped(int index) {
