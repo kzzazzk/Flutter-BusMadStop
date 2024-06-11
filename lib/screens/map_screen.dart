@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import '/db/database_helper.dart';
+import 'package:path_provider/path_provider.dart';
+import '/screens/bus_stop_screen.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -11,15 +15,79 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   List<Marker> markers = [];
   List<LatLng> routeCoordinates = [];
+  LatLng initialCenter = LatLng(40.4165, -3.70256);
+
   @override
   void initState() {
     super.initState();
-    loadMarkers();
-    loadRouteCoordinates();
+    //loadMarkers();
+    //loadRouteCoordinates();
+    loadInitialCenter();
+    loadBusStopMarkers();
+  }
+
+  Future<void> loadBusStopMarkers() async {
+    String jsonString = await rootBundle.loadString('lib/assets/EMT_stops.geojson');
+    print("geojson cargado");
+    var jsonData = jsonDecode(jsonString);
+    print("json codificado");
+    List<Marker> loadedMarkers = [];
+    print("lista de markers ceada");
+    for (var feature in jsonData['features']) {
+      var coordinates = feature['geometry']['coordinates'];
+      loadedMarkers.add(
+        Marker(
+          point: LatLng(coordinates[1], coordinates[0]),
+          width: 80,
+          height: 80,
+          child: IconButton(
+            onPressed : () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BusStopScreen(
+                            feature: feature,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.blue),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Text('Stop name: ${feature['properties']['DENOMINACION']}'),
+                          SizedBox(height: 10),
+                          Text('Tap to view details'),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            icon: Icon(Icons.location_pin),
+            color: Colors.red,
+          ),
+        ),
+      );
+    }
+    setState(() {
+      markers = loadedMarkers;
+    });
   }
 
   // Load coordiantes from database
-  Future<void> loadMarkers() async {
+  /*Future<void> loadMarkers() async {
     final dbMarkers = await DatabaseHelper.instance.getCoordinates();
     List<Marker> loadedMarkers = dbMarkers.map((record) {
       return Marker(
@@ -36,20 +104,14 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       markers = loadedMarkers;
     });
-  }
+  }*/
 
-  void loadRouteCoordinates() {
-    // Load list of coordinates in the route
-    routeCoordinates = [
-      LatLng(40.407621980242745, -3.517071770311644),
-      LatLng(40.409566291824795, -3.516234921159887),
-      LatLng(40.41031785940011, -3.5146041381974897),
-      LatLng(40.412784902661286, -3.513574170010713),
-      LatLng(40.414189933233956, -3.512866066882304),
-      LatLng(40.41686921259544, -3.511127995489052),
-      LatLng(40.41997312229808, -3.5090251437743816),
-    ];
-  }
+  /*void loadRouteCoordinates() async {
+    final dbCoordinates = await DatabaseHelper.instance.getLast30Coordinates();
+    routeCoordinates = dbCoordinates.map((record) {
+      return LatLng(record['latitude'], record['longitude']);
+    }).toList();
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +120,33 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+  Future<void> loadInitialCenter() async {
+    initialCenter = await getLastPositionFromFile();
+  }
+
+  Future<LatLng> getLastPositionFromFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/gps_coordinates.csv');
+
+    if (await file.exists()) {
+      List<String> lines = await file.readAsLines();
+
+      String lastLine = lines.last;
+
+      List<String> values = lastLine.split(';');
+
+      print("LAT:" + double.parse(values[1]).toString() + "LONG:" + double.parse(values[2]).toString());
+      return LatLng(double.parse(values[1]), double.parse(values[2]));
+    } else {
+      throw Exception('File does not exist');
+    }
+  }
+
   Widget content() {
     return FlutterMap(
       options: MapOptions(
           initialCenter:
-              LatLng(40.407621980242745, -3.517071770311644), // Centro inicial
+            initialCenter, // Centro inicial
           initialZoom: 15,
           interactionOptions:
               const InteractionOptions(flags: InteractiveFlag.all)),

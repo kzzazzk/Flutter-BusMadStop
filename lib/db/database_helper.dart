@@ -65,4 +65,9 @@ class DatabaseHelper {
       whereArgs: [timestamp],
     );
   }
+
+  /*Future<List<Map<String, dynamic>>> getLast30Coordinates() async {
+    final db = await DatabaseHelper.instance.database;
+    return await db.query('coordinates', orderBy: 'id DESC', limit: 30);
+  }*/
 }
