@@ -50,31 +50,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 30),
         child: Column(
           children: <Widget>[
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                onPressed: _register,
-                child: const Text(
-                  'Register',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Colors.black,
                 ),
               ),
             ),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: Colors.black,
+                ),
+              ),
+              obscureText: true,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 25, left: 5, right: 5), // Adjust padding as needed
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onPressed: _register,
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text(
+                      'REGISTER',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

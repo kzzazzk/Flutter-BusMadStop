@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void startTracking() async {
     const locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high, // Adjust the accuracy as needed
-      distanceFilter: 1, // Distance in meters before an update is triggered
+      distanceFilter: 5, // Distance in meters before an update is triggered
     );
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Welcome to the Home Screen!'),
+            const Text('Toggle to turn on Location Tracking!!!'),
             Switch(
               value: _positionStreamSubscription != null,
               onChanged: (value) {

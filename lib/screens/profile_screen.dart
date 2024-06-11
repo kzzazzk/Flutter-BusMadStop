@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_bus_stop/screens/login_screen.dart';
+import 'package:mad_bus_stop/screens/second_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -59,49 +60,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _email == null || _password == null
-                ? const CircularProgressIndicator()
-                : Column(
-                    children: <Widget>[
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            elevation: 4, // Increase elevation
-                          ), // Add onPressed function
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Email: $_email',
-                              textAlign: TextAlign.left,
+        child: Center(
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center content vertically
+            crossAxisAlignment:
+                CrossAxisAlignment.center, // Center content horizontally
+            children: <Widget>[
+              _email == null || _password == null
+                  ? const CircularProgressIndicator()
+                  : Column(
+                      children: <Widget>[
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              elevation: 4, // Increase elevation
+                            ), // Add onPressed function
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                style: TextStyle(fontSize: 15),
+                                'Email: $_email',
+                                textAlign: TextAlign.left,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              elevation: 4, // Increase elevation
+                            ), // Add onPressed function
+                            child: const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Text(
+                                style: TextStyle(fontSize: 15),
+                                'Password: ${"********"}',
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            elevation: 4, // Increase elevation
-                          ), // Add onPressed function
+                            backgroundColor: Colors.red,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => (SecondScreen())),
+                            );
+                          },
                           child: const Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(15.0),
                             child: Text(
-                              'Password: ${"********"}',
+                              'SHOW LATEST COORDINATES',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
                               textAlign: TextAlign.left,
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-          ],
+                        )
+                      ],
+                    ),
+            ],
+          ),
         ),
       ),
     );

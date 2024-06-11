@@ -145,6 +145,15 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.red,
+        centerTitle: true,
+        title: const Text(
+          'Latest Coordinates',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: ListView.builder(
         itemCount:
             _coordinates.length + _dbCoordinates.length, // Combined count

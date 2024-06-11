@@ -53,56 +53,89 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 30),
         child: Column(
           children: <Widget>[
             TextField(
               controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Colors.black,
+                ),
+              ),
             ),
             TextField(
               controller: passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: Colors.black,
+                ),
+              ),
               obscureText: true,
             ),
             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center, // Add this
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 25, left: 5, right: 5), //
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center, // Add this
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
                       onPressed: () {
                         _signInWithEmailAndPassword();
                       },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
+                      child: const Padding(
+                        padding: EdgeInsets.only(
+                            right: 12.0, left: 12.0, top: 12.0, bottom: 12.0),
+                        child: Text(
+                          'LOGIN',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => (RegisterScreen())),
-                      );
-                    },
-                    child: const Text(
-                      'Go to Register',
-                      style: TextStyle(
-                        color: Colors.white,
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => (RegisterScreen())),
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text(
+                          'GO TO REGISTER',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

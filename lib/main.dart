@@ -57,7 +57,6 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     SplashScreen(),
     MapScreen(),
-    SecondScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -105,10 +104,6 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Map',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.gps_fixed),
-            label: 'Persistence',
           ),
         ],
         currentIndex: _selectedIndex,
