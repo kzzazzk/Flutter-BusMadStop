@@ -22,61 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
   final _tokenController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    _loadPrefs();
-  }
-
-  Future<void> _showInputDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Enter UID and Token'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextField(
-                  controller: _uidController,
-                  decoration: InputDecoration(hintText: "UID"),
-                ),
-                TextField(
-                  controller: _tokenController,
-                  decoration: InputDecoration(hintText: "Token"),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Save'),
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.setString('uid', _uidController.text);
-                await prefs.setString('token', _tokenController.text);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _loadPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? uid = prefs.getString('uid');
-    String? token = prefs.getString('token');
-
-    if (uid == null || token == null) {
-      _showInputDialog();
-    } else {
-      logger.d("UID: $uid, Token: $token");
-    }
-  }
-
-  @override
   void dispose() {
     _uidController.dispose();
     _tokenController.dispose();
@@ -107,11 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _positionStreamSubscription =
         Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-              (Position position) {
-            writePositionToFile(position);
-            db.insertCoordinate(position);
-          },
-        );
+      (Position position) {
+        writePositionToFile(position);
+        db.insertCoordinate(position);
+      },
+    );
   }
 
   void stopTracking() {

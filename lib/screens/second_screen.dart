@@ -56,17 +56,16 @@ class _SecondScreenState extends State<SecondScreen> {
     });
   }
 
-
   void _loadDbCoordinatesAndUpdate() async {
     List<Map<String, dynamic>> dbCoords =
-    await DatabaseHelper.instance.getCoordinates();
+        await DatabaseHelper.instance.getCoordinates();
     setState(() {
       _dbCoordinates = dbCoords
           .map((c) => [
-        c['timestamp'].toString(),
-        c['latitude'].toString(),
-        c['longitude'].toString()
-      ])
+                c['timestamp'].toString(),
+                c['latitude'].toString(),
+                c['longitude'].toString()
+              ])
           .toList();
     });
   }
@@ -97,9 +96,12 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-  void _showUpdateDialog(String timestamp, String currentLat, String currentLong) {
-    TextEditingController latController = TextEditingController(text: currentLat);
-    TextEditingController longController = TextEditingController(text: currentLong);
+  void _showUpdateDialog(
+      String timestamp, String currentLat, String currentLong) {
+    TextEditingController latController =
+        TextEditingController(text: currentLat);
+    TextEditingController longController =
+        TextEditingController(text: currentLong);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -129,7 +131,8 @@ class _SecondScreenState extends State<SecondScreen> {
               child: Text("Update"),
               onPressed: () async {
                 Navigator.of(context).pop();
-                await DatabaseHelper.instance.updateCoordinate(timestamp, latController.text, longController.text);
+                await DatabaseHelper.instance.updateCoordinate(
+                    timestamp, latController.text, longController.text);
                 _loadDbCoordinatesAndUpdate();
               },
             ),
@@ -142,11 +145,9 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Second Screen'),
-      ),
       body: ListView.builder(
-        itemCount: _coordinates.length + _dbCoordinates.length, // Combined count
+        itemCount:
+            _coordinates.length + _dbCoordinates.length, // Combined count
         itemBuilder: (context, index) {
           if (index < _coordinates.length) {
             var coord = _coordinates[index];
@@ -158,10 +159,13 @@ class _SecondScreenState extends State<SecondScreen> {
             var dbIndex = index - _coordinates.length;
             var coord = _dbCoordinates[dbIndex];
             return ListTile(
-              title: Text('DB Timestamp: ${coord[0]}', style: TextStyle(color: Colors.blue)),
-              subtitle: Text('Latitude: ${coord[1]}, Longitude: ${coord[2]}', style: TextStyle(color: Colors.blue)),
+              title: Text('DB Timestamp: ${coord[0]}',
+                  style: TextStyle(color: Colors.blue)),
+              subtitle: Text('Latitude: ${coord[1]}, Longitude: ${coord[2]}',
+                  style: TextStyle(color: Colors.blue)),
               onTap: () => _showDeleteDialog(coord[0]),
-              onLongPress: () => _showUpdateDialog(coord[0], coord[1], coord[2]),
+              onLongPress: () =>
+                  _showUpdateDialog(coord[0], coord[1], coord[2]),
             );
           }
         },
@@ -169,4 +173,3 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 }
-

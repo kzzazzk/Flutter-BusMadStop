@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '/db/database_helper.dart';
+
 class MapScreen extends StatefulWidget {
   @override
   _MapScreenState createState() => _MapScreenState();
 }
+
 class _MapScreenState extends State<MapScreen> {
   List<Marker> markers = [];
   List<LatLng> routeCoordinates = [];
@@ -15,6 +17,7 @@ class _MapScreenState extends State<MapScreen> {
     loadMarkers();
     loadRouteCoordinates();
   }
+
   // Load coordiantes from database
   Future<void> loadMarkers() async {
     final dbMarkers = await DatabaseHelper.instance.getCoordinates();
@@ -34,6 +37,7 @@ class _MapScreenState extends State<MapScreen> {
       markers = loadedMarkers;
     });
   }
+
   void loadRouteCoordinates() {
     // Load list of coordinates in the route
     routeCoordinates = [
@@ -46,19 +50,22 @@ class _MapScreenState extends State<MapScreen> {
       LatLng(40.41997312229808, -3.5090251437743816),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Map View')),
       body: content(),
     );
   }
+
   Widget content() {
     return FlutterMap(
       options: MapOptions(
-          initialCenter: LatLng(40.407621980242745, -3.517071770311644), // Centro inicial
+          initialCenter:
+              LatLng(40.407621980242745, -3.517071770311644), // Centro inicial
           initialZoom: 15,
-          interactionOptions: const InteractionOptions(flags: InteractiveFlag.all)),
+          interactionOptions:
+              const InteractionOptions(flags: InteractiveFlag.all)),
       children: [
         openStreetMapTileLayer,
         MarkerLayer(markers: markers), // Marcadores cargados
@@ -75,7 +82,8 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 }
+
 TileLayer get openStreetMapTileLayer => TileLayer(
-  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-);
+      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+    );
