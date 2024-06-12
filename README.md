@@ -80,33 +80,32 @@ Video demonstrating how the app works (click the thumbnail):
 
 List the **functional** features of the app. For example:
 
--R Register, login and logout.
-- 
-
+- Register, login and logout.
+- Check login information.
+- Access map with bus stop locations.
+- Consult bus stop information (ID, name, buses remaining time).
+- Madrid Bus Maps
 - Search for common routes in Madrid.
 - Filters by transport type.
-- Interactive maps.
-- Real-time traffic information.
 
 List the **technical** features of the app. You might include specific references to source code
 in your repo. For example:
 
-- Persistence in csv/text file
-- Persistence in shared preferences
-- Persistence in Room database.
-  Ref: [Source code](https://github.com/btabuenca/HelloWorldKt/blob/268a3367296238c76ec1baa18d0b5d268a49235f/app/src/main/java/es/upm/btb/helloworldkt/persistence/room/LocationEntity.kt#L6 "LocationEntity")
-- Firebase Realtime database
+- Persistence in csv/text file for Coordinates.
+- Persistence in SQLite database.
 - Firebase authentication
-- Maps: Openstreetmaps or Google maps
-- Resful APIs used (*e.g., Openwheathermaps https://openweathermap.org/api .Describe the api here*).
-- Menu: *e.g., Toolbar*
-- Images: *e.g. glide or picasso library*
-- Sensors: *e.g., GPS coordinates, noise meter, light meter, compass, gyroscope, ...*
-- ...
+- Maps: OpenStreetMaps loaded with bus stops from a geojson.
+- Resful APIs used (*e.g., EMT_API apidocs.emtmadrid.es This API is used to get all of the station
+  information related to the bus estimated arrivaL times*).
+- Menu: AppBar, BottomNavigationBar, CupertinoAlertDialog, Screens (Map, BusStop, LatestCoordinates,
+  Home, UserProfile)
+- Sensors: GPS coordinates
 
 ## How to Use
 
-Provide instructions on how to get started with the app as user.
+As soon as you log in or register you will be able to fully experience what BusMadStop's flutter
+version has to offer
+to it's end users.
 
 ## Participants
 
