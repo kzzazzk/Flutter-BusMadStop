@@ -72,7 +72,9 @@ Madrid's bus system a breeze.
 ## Demo Video
 
 Video demonstrating how the app works (click the Thumbnail):
-<img src="img/thumbnail.png" alt="BusMadStop" width="600" href="https://upm365.sharepoint.com/:v:/s/MAD_ZLS_SBM/EdFoPaDZF39Lut9O_nCDI6sBzWmgjDbVk-bRxJp5mjwRQA?e=OoB3Ue"/>
+<a href="https://upm365.sharepoint.com/:v:/s/MAD_ZLS_SBM/EdFoPaDZF39Lut9O_nCDI6sBzWmgjDbVk-bRxJp5mjwRQA?e=OoB3Ue">
+<img src="img/thumbnail.png" alt="BusMadStop" width="600" />
+</a>
 
 ## Features
 
