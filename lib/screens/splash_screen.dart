@@ -56,10 +56,12 @@ class _SplashScreenState extends State<SplashScreen> {
     _positionStreamSubscription =
         Geolocator.getPositionStream(locationSettings: locationSettings).listen(
               (Position position) {
-            writePositionToFile(position);
-            db.insertCoordinate(position);
-            Provider.of<LocationProvider>(context, listen: false)
-                .updateLocation(LatLng(position.latitude, position.longitude));
+                if (mounted) {
+                  writePositionToFile(position);
+                  db.insertCoordinate(position);
+                  Provider.of<LocationProvider>(context, listen: false)
+                      .updateLocation(LatLng(position.latitude, position.longitude));
+                }
           },
         );
   }

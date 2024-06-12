@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:mad_bus_stop/http/api_manager.dart';
 
-class BusStopScreen extends StatelessWidget {
-  final Map<String, int> busStops;
+class BusStopScreen extends StatefulWidget {
+  late final Map<String, int> busStops;
   final Map<String, dynamic> feature;
 
-  const BusStopScreen(
-      {super.key, required this.feature, required this.busStops});
+  BusStopScreen({Key? key, required this.feature, required this.busStops})
+      : super(key: key);
+
+  @override
+  _BusStopScreenState createState() => _BusStopScreenState();
+}
+
+class _BusStopScreenState extends State<BusStopScreen> {
+  late Map<String, int> busStops;
+  String currentBusStop = "";
+
+  @override
+  void initState() {
+    super.initState();
+    busStops = widget.busStops;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +45,13 @@ class BusStopScreen extends StatelessWidget {
                 size: 45,
               ),
             ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: const Icon(Icons.refresh, color: Colors.white),
+                onPressed: _refreshTimes,
+              ),
+            ),
           ],
         ),
       ),
@@ -37,8 +59,19 @@ class BusStopScreen extends StatelessWidget {
     );
   }
 
+  void _refreshTimes() async {
+    Map<String, int> newBusStops =
+        await ApiManager.fetchStopData(currentBusStop);
+    if (mounted) {
+      setState(() {
+        busStops = newBusStops;
+      });
+    }
+  }
+
   Widget content() {
-    List<String> busLines = feature['properties']['LINEAS'].split(', ');
+    List<String> busLines = widget.feature['properties']['LINEAS'].split(', ');
+    currentBusStop = widget.feature['properties']['CODIGOEMPRESA'];
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -63,7 +96,7 @@ class BusStopScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: Text(
-                    feature['properties']['DENOMINACION'],
+                    widget.feature['properties']['DENOMINACION'],
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -80,7 +113,7 @@ class BusStopScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
-                    feature['properties']['CODIGOEMPRESA'],
+                    widget.feature['properties']['CODIGOEMPRESA'],
                     style: const TextStyle(fontSize: 15, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),

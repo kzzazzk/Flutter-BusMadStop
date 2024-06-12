@@ -53,6 +53,7 @@ class _MapScreenState extends State<MapScreen> {
                       CupertinoDialogAction(
                         isDestructiveAction: true,
                         onPressed: () {
+                          Navigator.pop(context);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
