@@ -85,8 +85,6 @@ List the **functional** features of the app. For example:
 - Access map with bus stop locations.
 - Consult bus stop information (ID, name, buses remaining time).
 - Madrid Bus Maps
-- Search for common routes in Madrid.
-- Filters by transport type.
 
 List the **technical** features of the app. You might include specific references to source code
 in your repo. For example:
