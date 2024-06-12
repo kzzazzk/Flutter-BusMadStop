@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 import 'location_provider.dart';
 import 'screens/splash_screen.dart';
@@ -8,10 +9,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/profile_screen.dart';
 import 'package:provider/provider.dart';
+import 'http/api_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await dotenv.load(fileName: '.env');
+  await ApiManager.loadAccessToken();
   await Firebase.initializeApp(
     name: 'madbusstop-firebase',
     options: DefaultFirebaseOptions.currentPlatform,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class BusStopScreen extends StatelessWidget {
+  final Map<String, int> busStops;
   final Map<String, dynamic> feature;
 
-  const BusStopScreen({super.key, required this.feature});
+  const BusStopScreen(
+      {super.key, required this.feature, required this.busStops});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class BusStopScreen extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Colors.blueAccent,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
@@ -111,24 +113,28 @@ class BusStopScreen extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                ...busLines.map((line) {
-                  // Placeholder for the latest time for each bus. Replace with actual data.
-                  String latestTime = '-';
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                  ),
+                ],
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: busStops.length,
+                itemBuilder: (context, index) {
+                  String busStop = busStops.keys.elementAt(index);
+                  int? estimatedTime = busStops[busStop];
+                  String formattedTimes = formattedTime(estimatedTime!.toInt());
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
@@ -142,7 +148,7 @@ class BusStopScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Text(
-                            line,
+                            busStop,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -150,32 +156,29 @@ class BusStopScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          latestTime,
+                          formattedTimes,
                           style: const TextStyle(fontSize: 18),
                         ),
                       ],
                     ),
                   );
-                }),
-              ],
+                },
+              ),
             ),
           ),
         ],
       ),
     );
   }
-}
 
-void main() {
-  runApp(const MaterialApp(
-    home: BusStopScreen(
-      feature: {
-        'properties': {
-          'DENOMINACION': 'Main St',
-          'CODIGOEMPRESA': '123456',
-          'LINEAS': '1, 2, 3'
-        }
-      },
-    ),
-  ));
+  formattedTime(int timeInSecond) {
+    if (timeInSecond > 3600) {
+      return "> 1h";
+    }
+    int sec = timeInSecond % 60;
+    int min = (timeInSecond / 60).floor();
+    String minute = min.toString().length <= 1 ? "0$min" : "$min";
+    String second = sec.toString().length <= 1 ? "0$sec" : "$sec";
+    return "$minute : $second";
+  }
 }

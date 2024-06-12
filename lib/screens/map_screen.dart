@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:mad_bus_stop/http/api_manager.dart';
 import 'package:provider/provider.dart';
 import '../location_provider.dart';
 import '/screens/bus_stop_screen.dart';
+import '/http/api_manager.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -29,11 +32,8 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> loadBusStopMarkers() async {
     String jsonString =
         await rootBundle.loadString('lib/assets/EMT_stops.geojson');
-    print("geojson cargado");
     var jsonData = jsonDecode(jsonString);
-    print("json codificado");
     List<Marker> loadedMarkers = [];
-    print("lista de markers ceada");
     for (var feature in jsonData['features']) {
       var coordinates = feature['geometry']['coordinates'];
       loadedMarkers.add(
@@ -42,37 +42,45 @@ class _MapScreenState extends State<MapScreen> {
           width: 80,
           height: 80,
           child: IconButton(
-            onPressed: () {
+            onPressed: () async {
+              var busStops = await ApiManager.fetchStopData(
+                  feature['properties']['CODIGOEMPRESA']);
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BusStopScreen(
-                            feature: feature,
-                          ),
+                  return CupertinoAlertDialog(
+                    title: Text(
+                        'Do you want to view the details of ${feature['properties']['DENOMINACION']}'),
+                    actions: <CupertinoDialogAction>[
+                      CupertinoDialogAction(
+                        isDefaultAction: true,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'No',
+                          style: TextStyle(color: Colors.red),
                         ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.blue),
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Text(
-                              'Stop name: ${feature['properties']['DENOMINACION']}'),
-                          const SizedBox(height: 7),
-                          const Text('Tap to view details'),
-                        ],
+                      CupertinoDialogAction(
+                        isDestructiveAction: true,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BusStopScreen(
+                                feature: feature,
+                                busStops: busStops,
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(color: Colors.blue),
+                        ),
                       ),
-                    ),
+                    ],
                   );
                 },
               );
@@ -108,13 +116,13 @@ class _MapScreenState extends State<MapScreen> {
     LatLng center = Provider.of<LocationProvider>(context).currentLocation;
     return FlutterMap(
       options: MapOptions(
-          initialCenter: center, // Centro inicial
+          initialCenter: center,
           initialZoom: 15,
           interactionOptions:
               const InteractionOptions(flags: InteractiveFlag.all)),
       children: [
         openStreetMapTileLayer,
-        MarkerLayer(markers: markers), // Marcadores cargados
+        MarkerLayer(markers: markers),
         PolylineLayer(
           polylines: [
             Polyline(
