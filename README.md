@@ -74,14 +74,15 @@ Madrid's bus system a breeze.
 Video demonstrating how the app works (Max 1 video of 1 minute), upload it to a platform like
 YouTube or Vimeo (it might also work with Stream) and link it here:  
 <a href="Project idea: https://upm365-my.sharepoint.com/:v:/g/personal/s_bourhim_alumnos_upm_es/EW1jjzgb9IdEuc5f6XM-5EIBsOcI7yRg9SqhRGmF9OHb3g?e=lBDmwL">
-<img src="img/thumbnail.png" alt="BusMadStop" width="100" />
+<img src="img/thumbnail.png" alt="BusMadStop" width="600" />
 </a>
 
 ## Features
 
 List the **functional** features of the app. For example:
 
--R Register and login.
+-R Register, login and logout.
+- 
 
 - Search for common routes in Madrid.
 - Filters by transport type.
