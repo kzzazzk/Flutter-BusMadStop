@@ -174,6 +174,8 @@ class BusStopScreen extends StatelessWidget {
   formattedTime(int timeInSecond) {
     if (timeInSecond > 3600) {
       return "> 1h";
+    } else if (timeInSecond == 0) {
+      return "Now";
     }
     int sec = timeInSecond % 60;
     int min = (timeInSecond / 60).floor();

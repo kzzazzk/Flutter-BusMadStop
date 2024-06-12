@@ -44,7 +44,7 @@ class ApiManager {
           'cultureInfo': 'ES',
           'Text_StopRequired_YN': 'Y',
           'Text_EstimationsRequired_YN': 'Y',
-          'Text_IncidencesRequired_YN': 'Y',
+          'Text_IncidencesRequired_YN': 'N',
           'DateTime_Referenced_Incidencies_YYYYMMDD': formattedDate,
         }),
       );

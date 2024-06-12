@@ -24,8 +24,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    //loadMarkers();
-    //loadRouteCoordinates();
     loadBusStopMarkers();
   }
 
@@ -53,16 +51,6 @@ class _MapScreenState extends State<MapScreen> {
                         'Do you want to view the details of ${feature['properties']['DENOMINACION']}'),
                     actions: <CupertinoDialogAction>[
                       CupertinoDialogAction(
-                        isDefaultAction: true,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text(
-                          'No',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                      CupertinoDialogAction(
                         isDestructiveAction: true,
                         onPressed: () {
                           Navigator.push(
@@ -78,6 +66,16 @@ class _MapScreenState extends State<MapScreen> {
                         child: const Text(
                           'Yes',
                           style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                      CupertinoDialogAction(
+                        isDefaultAction: true,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'No',
+                          style: TextStyle(color: Colors.red),
                         ),
                       ),
                     ],
