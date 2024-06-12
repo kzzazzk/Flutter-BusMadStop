@@ -18,9 +18,6 @@ Madrid's bus system a breeze.
 
 ## Screenshots and navigation
 
-Include screenshots of the app in action. You can upload the images to GitHub and then reference
-them here using Markdown or HTML syntax:
-
 <table>
   <tr>
     <td>
@@ -57,6 +54,7 @@ them here using Markdown or HTML syntax:
       <img src="img/CupertinoAlertDialog.png" width="80%" alt="CupertinoAlertDialog"/>
       <p align="center">CupertinoAlertDialog</p>
     </td>
+    <td>
       <img src="img/BusStopScreen.png" width="80%" alt="BusStopScreen"/>
       <p align="center">BusStopScreen</p>
     </td>
