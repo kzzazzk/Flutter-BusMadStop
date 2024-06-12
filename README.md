@@ -1,20 +1,20 @@
-# Your App's Name (e.g., MADTracking)
+# Flutter-BusMadStop
 
 ## Workspace
 
 Github:
 
-- Repository: https://github.com/btabuenca/HelloWorldKt/
-- Releases: https://github.com/btabuenca/HelloWorldKt/releases
+- Repository: https://github.com/kzzazzk/Flutter-BusMadStop/tree/main
+- Releases: https://github.com/kzzazzk/Flutter-BusMadStop/releases
 
-Workspace: https://upm365.sharepoint.com/sites/MobileAppSite .
+Workspace: https://upm365.sharepoint.com/sites/MAD_ZLS_SBM/SitePages/Tracking.aspx
 
 ## Description
 
-A brief introduction to what your app does and why it's useful. Explain how it enhances the
-experience within its scope (e.g., finding green routes to walk in Madrid) and any unique features
-it offers. Compare and contrast with already existing apps in the markets (Google Play or AppStore
-iOS).
+BusMadStop is an intuitive and user-friendly application designed to enhance your travel experience
+in Madrid. It provides real-time information on all bus stations and their respective schedules,
+ensuring you never miss a bus. Whether you're a resident or a tourist, BusMadStop makes navigating
+Madrid's bus system a breeze.
 
 ## Screenshots and navigation
 
@@ -89,21 +89,10 @@ in your repo. For example:
 
 Provide instructions on how to get started with the app as user.
 
-## Additional section
-
-You might describe any additional section you might consider necessary. Remove this if not
-necessary.
-
 ## Participants
 
 List of MAD developers:
 
-- Name SecondName Member1 (emailmemmber1@alumunos.upm.es)
-- Name SecondName Member1 (emailmemmber1@alumunos.upm.es)
+- Zakaria Lasry Sahraoui (z.lsahraoui@alumnos.upm.es)
+- Salman Bourhim Mesaoudi (s.bourhim@alumunos.upm.es)  
 
-Workload distribution between members: (Percentage member1 / Percentage member 2) . *Please only
-specify in case of unevenly balanced workload distribution long the project e.g., (60%/40%). If not
-specified 50%/50% will be assumed*
-
-```bash
-you might include references or commands if necessary
