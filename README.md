@@ -72,9 +72,7 @@ Madrid's bus system a breeze.
 ## Demo Video
 
 Video demonstrating how the app works (click the thumbnail):
-<a href="Project idea: https://upm365-my.sharepoint.com/:v:/g/personal/s_bourhim_alumnos_upm_es/EW1jjzgb9IdEuc5f6XM-5EIBsOcI7yRg9SqhRGmF9OHb3g?e=lBDmwL">
-<img src="img/thumbnail.png" alt="BusMadStop" width="600" />
-</a>
+<img src="img/thumbnail.png" alt="BusMadStop" width="600" href="Project idea: https://upm365-my.sharepoint.com/:v:/g/personal/s_bourhim_alumnos_upm_es/EW1jjzgb9IdEuc5f6XM-5EIBsOcI7yRg9SqhRGmF9OHb3g?e=lBDmwL"/>
 
 ## Features
 
@@ -84,7 +82,6 @@ List the **functional** features of the app. For example:
 - Check login information.
 - Access map with bus stop locations.
 - Consult bus stop information (ID, name, buses remaining time).
-- Madrid Bus Maps
 
 List the **technical** features of the app. You might include specific references to source code
 in your repo. For example:
