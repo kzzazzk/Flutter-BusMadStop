@@ -71,8 +71,7 @@ Madrid's bus system a breeze.
 
 ## Demo Video
 
-Video demonstrating how the app works (Max 1 video of 1 minute), upload it to a platform like
-YouTube or Vimeo (it might also work with Stream) and link it here:  
+Video demonstrating how the app works (click the thumbnail):
 <a href="Project idea: https://upm365-my.sharepoint.com/:v:/g/personal/s_bourhim_alumnos_upm_es/EW1jjzgb9IdEuc5f6XM-5EIBsOcI7yRg9SqhRGmF9OHb3g?e=lBDmwL">
 <img src="img/thumbnail.png" alt="BusMadStop" width="600" />
 </a>
