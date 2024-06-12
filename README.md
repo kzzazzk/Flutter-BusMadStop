@@ -64,8 +64,6 @@ Madrid's bus system a breeze.
       <img src="img/BusStopScreenAfterRefresh.png" width="80%" alt="BusStopScreenAfterRefresh"/>
       <p align="center">BusStopScreenAfterRefresh</p>
     </td>
-    <td>
-    </td>
   </tr>
 </table>
 
