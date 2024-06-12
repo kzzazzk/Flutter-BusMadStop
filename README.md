@@ -54,7 +54,6 @@ them here using Markdown or HTML syntax:
   </tr>
   <tr>
     <td>
-    <td>
       <img src="img/CupertinoAlertDialog.png" width="80%" alt="CupertinoAlertDialog"/>
       <p align="center">CupertinoAlertDialog</p>
     </td>
