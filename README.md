@@ -24,30 +24,48 @@ them here using Markdown or HTML syntax:
 <table>
   <tr>
     <td>
-      <img src="img/nav1.png" width="80%" alt="Describe here image 1"/>
-      <p align="center">Describe here image 1</p>
+      <img src="img/RegisterScreen.png" width="80%" alt="RegisterScreen"/>
+      <p align="center">RegisterScreen</p>
     </td>
     <td>
-      <img src="img/nav2.png" width="80%" alt="Describe here image 2"/>
-      <p align="center">Describe here image 2</p>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <img src="img/nav3.png" width="80%" alt="Describe here image 3"/>
-      <p align="center">Describe here image 3</p>
-    </td>
-    <td>
-      <img src="img/nav4.png" width="80%" alt="Describe here image 4"/>
-      <p align="center">Describe here image 4</p>
+      <img src="img/LoginScreen.png" width="80%" alt="LoginScreen"/>
+      <p align="center">LoginScreen</p>
     </td>
   </tr>
   <tr>
     <td>
-      <img src="img/nav6.png" width="80%" alt="Describe here image 5"/>
-      <p align="center">Describe here image 5</p>
+      <img src="img/UserProfileScreen.png" width="80%" alt="UserProfileScreen"/>
+      <p align="center">UserProfileScreen</p>
     </td>
     <td>
+      <img src="img/LatestCoordinatesScreen.png" width="80%" alt="LatestCoordinatesScreen"/>
+      <p align="center">LatestCoordinatesScreen</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="img/HomeScreen.png" width="80%" alt="HomeScreen"/>
+      <p align="center">HomeScreen</p>
+    </td>
+    <td>
+      <img src="img/MapScreen.png" width="80%" alt="MapScreen"/>
+      <p align="center">MapScreen</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <td>
+      <img src="img/CupertinoAlertDialog.png" width="80%" alt="CupertinoAlertDialog"/>
+      <p align="center">CupertinoAlertDialog</p>
+    </td>
+      <img src="img/BusStopScreen.png" width="80%" alt="BusStopScreen"/>
+      <p align="center">BusStopScreen</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="img/BusStopScreenAfterRefresh.png" width="80%" alt="BusStopScreenAfterRefresh"/>
+      <p align="center">BusStopScreenAfterRefresh</p>
     </td>
   </tr>
 </table>
